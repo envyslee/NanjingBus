@@ -1,0 +1,230 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="NanjingBus.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0"
+    x:Name="MainApplicationPage"
+    toolkit:TiltEffect.IsTiltEnabled="True">
+
+    <phone:PhoneApplicationPage.Resources>
+        <!--<Storyboard x:Name="OpenPopupStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="StationPopup" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="StationPopup" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" From="0.1" To="1" Duration="0:0:0.4"></DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="StationPopup" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" From="0.1" To="1" Duration="0:0:0.4"></DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="StationPopup" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.4"></DoubleAnimation>
+        </Storyboard>-->
+
+        <Storyboard x:Name="OpenTitleStoryboard">
+            <DoubleAnimation
+                            Storyboard.TargetName="TitleProjection"
+                            Storyboard.TargetProperty="RotationY"
+                            From="-180"
+                            To="0"
+                            Duration="0:0:1"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="StationPopup"
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                        Value="Visible"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="OpenLineStoryboard">
+            <DoubleAnimation
+                            Storyboard.TargetName="LineProjection"
+                            Storyboard.TargetProperty="RotationY"
+                            From="-180"
+                            To="0"
+                            Duration="0:0:1"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LineGrid"
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                        Value="Visible"/>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" >
+            <!--<TextBlock Text="我的应用程序" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+            <TextBlock Text="页面名称" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>-->
+            <ProgressBar x:Name="ProgressBar" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
+        </StackPanel>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,12,0">
+            <phone:Pivot Title ="南京掌上公交">
+                <phone:PivotItem Header="站点">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <toolkit:PhoneTextBox   x:Name="StationTextBox"
+                            FontSize="24"
+                                           Foreground="#000000"
+                                           Hint="请输入站点名称"
+                                          >
+                        </toolkit:PhoneTextBox>
+                        <Image Source="/Resources/Image/search2.jpg" 
+                               Height="50"
+                               Width="50"
+                                  Margin="0 0 10 0"
+                               HorizontalAlignment="Right"
+                               Tap="Station_OnTap"></Image>
+
+                        <ListBox Grid.Row="1"
+                                  Margin="12 0 0 12"
+                                 ItemsSource="{Binding MatchingStation,ElementName=MainApplicationPage}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" 
+                                               FontSize="28"
+                                               Margin="0 10 0 0"
+                                               Tap="MatchingStation_OnTap"
+                                               ></TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+
+                </phone:PivotItem>
+                <phone:PivotItem Header="线路">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <toolkit:PhoneTextBox    x:Name="LineTextBox"
+                                                FontSize="24"
+                                           Foreground="#000000"
+                                           Hint="请输入线路名称">
+                        </toolkit:PhoneTextBox>
+                        <Image Source="/Resources/Image/search2.jpg" 
+                               Height="50"
+                               Width="50"
+                               HorizontalAlignment="Right"
+                               Tap="Line_OnTap"
+                               Margin="0 0 10 0"></Image>
+                        <ListBox Grid.Row="1"
+                                 Margin="12 0 0 12"
+                                 ItemsSource="{Binding DirectionCollection,ElementName=MainApplicationPage}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" 
+                                               FontSize="28"
+                                               Margin="0 10 0 0"
+                                      
+                                               Tap="Direction_OnTap"
+                                               TextWrapping="Wrap"></TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                </phone:PivotItem>
+            </phone:Pivot>
+
+            <!--<Border Background="{Binding BrushForbg,ElementName=MainApplicationPage}"
+                    BorderBrush="{Binding Brush,ElementName=MainApplicationPage}">-->
+
+            <!--</Border>-->
+        </Grid>
+        <Grid x:Name="StationPopup"
+                  Grid.Row="0"
+              Grid.RowSpan="2"
+                  Visibility="Collapsed"
+                  VerticalAlignment="Top"
+   
+                  Background="Black"
+                        Width="{Binding ActualWidth,ElementName=MainApplicationPage}"
+                  Height="{Binding ActualHeight,ElementName=MainApplicationPage}">
+            <Grid.Projection>
+                <PlaneProjection x:Name="TitleProjection"/>
+            </Grid.Projection>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="请选择您当前所在站台："
+                           FontSize="30" 
+                           Padding="10 20 0 0"
+                           Foreground="White"></TextBlock>
+            <ListBox x:Name="StationListBox" 
+                         Grid.Row="1"
+                          Margin="10 20 0 0"
+                         ItemsSource="{Binding StationCollection,ElementName=MainApplicationPage}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" 
+                                       FontSize="28"
+                                       Tap="CurrStation_OnTap"
+                                             Foreground="White"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid x:Name="LineGrid"
+                    Grid.Row="0"
+              Grid.RowSpan="2"
+                   Visibility="Collapsed"
+                  VerticalAlignment="Top"
+                     Background="Black"
+                  Width="{Binding ActualWidth,ElementName=MainApplicationPage}"
+                  Height="{Binding ActualHeight,ElementName=MainApplicationPage}">
+            <Grid.Projection>
+                <PlaneProjection x:Name="LineProjection"></PlaneProjection>
+            </Grid.Projection>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                           Text="请选择您需要的线路："
+                           FontSize="30"
+                           Padding="10 20 0 0"
+                            Foreground="White"></TextBlock>
+            <ListBox x:Name="LineListBox"
+                            Grid.Row="1"
+                          Margin="10 20 0 0"
+                         ItemsSource="{Binding LineCollection,ElementName=MainApplicationPage}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}"
+                                          FontSize="28"
+                                          Tap="CurrLine_OnTap"
+                                        Margin="0 10 0 0"
+                                       TextWrapping="Wrap"
+                                                Foreground="White"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>

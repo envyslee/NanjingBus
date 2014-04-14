@@ -1,0 +1,76 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="NanjingBus.DetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    shell:SystemTray.Opacity="0"
+    x:Name="DetailApplicationPage"
+    Loaded="DetailPage_OnLoaded"
+    toolkit:TiltEffect.IsTiltEnabled="True">
+
+    <!--LayoutRoot 是包含所有页面内容的根网格-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ProgressBar x:Name="ProgressBar" Grid.Row="0" IsIndeterminate="True" Visibility="Collapsed"></ProgressBar>
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="1" Margin="12,17,0,24">
+            <TextBlock Text="南京掌上公交" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
+        </StackPanel>
+
+        <!--ContentPanel - 在此处放置其他内容-->
+        <Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">
+            <ListBox Margin="12,0,0,0" ItemsSource="{Binding BindList,ElementName=DetailApplicationPage}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Grid Visibility="{Binding Visibility}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="BusTextBlock"
+                                           Text="{Binding BusId}"
+                                           FontSize="24"
+                                           Foreground="Green"></TextBlock>
+                                <TextBlock Grid.Column="1" Text="即将进站  时速:"  Foreground="Green"  FontSize="24"></TextBlock>
+                                <TextBlock Text="{Binding BusSpeed}"
+                                             Grid.Column="2"
+                                           FontSize="24"
+                                           Foreground="Green"></TextBlock>
+                                <TextBlock Grid.Column="3" Text="km/h" Foreground="Green"  FontSize="24"></TextBlock>
+                            </Grid>
+
+                            <TextBlock x:Name="StationTextBlock" 
+                                           Text="{Binding StationName}"
+                                           FontSize="28"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar Mode="Default" >
+            <shell:ApplicationBarIconButton Text="刷新" 
+                                            Click="RefreshIconButton_OnClick"
+                                            IconUri="/Resources/Image/sync.png"></shell:ApplicationBarIconButton>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>
