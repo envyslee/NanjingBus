@@ -91,33 +91,7 @@ namespace NanjingBus
             }
         }
 
-        //private LinearGradientBrush brushForbg = new LinearGradientBrush();
-
-        //public LinearGradientBrush BrushForbg
-        //{
-        //    get
-        //    {
-        //        return brushForbg;
-        //    }
-        //    set
-        //    {
-        //        brushForbg = value;
-        //    }
-        //}
-
-        //private LinearGradientBrush brush = new LinearGradientBrush();
-
-        //public LinearGradientBrush Brush
-        //{
-        //    get
-        //    {
-        //        return brush;
-        //    }
-        //    set
-        //    {
-        //        brush = value;
-        //    }
-        //}
+      
         // 构造函数
         public MainPage()
         {
@@ -159,8 +133,23 @@ namespace NanjingBus
 
         private void StationCallback(IAsyncResult result)
         {
+
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-            WebResponse response = request.EndGetResponse(result);
+            WebResponse response;
+            try
+            {
+                response = request.EndGetResponse(result);
+            }
+            catch (Exception)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    ProgressBar.Visibility = Visibility.Collapsed;
+                    MessageHelper.Show("网络出错噜~");
+                });
+
+                return;
+            }
             using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -191,7 +180,7 @@ namespace NanjingBus
         }
 
         /// <summary>
-        /// 获取某条线路的所有站点
+        /// 获取某条线路的正反方向和所有站点
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -221,7 +210,22 @@ namespace NanjingBus
         private void ResponseCallback(IAsyncResult result)
         {
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-            WebResponse response = request.EndGetResponse(result);
+            WebResponse response;
+            try
+            {
+                 response = request.EndGetResponse(result);
+            }
+            catch (Exception)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    ProgressBar.Visibility = Visibility.Collapsed;
+                    MessageHelper.Show("网络出错噜~");
+                });
+            
+                return;
+            }
+ 
             using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -240,6 +244,11 @@ namespace NanjingBus
             }
         }
 
+        /// <summary>
+        /// 选择某一方向线路
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Direction_OnTap(object sender, GestureEventArgs e)
         {
             //StationPopup.Visibility = Visibility.Visible;
@@ -330,7 +339,11 @@ namespace NanjingBus
             }
         }
 
-
+        /// <summary>
+        /// 获取站点
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CurrLine_OnTap(object sender, GestureEventArgs e)
         {
             TextBlock tb = sender as TextBlock;
@@ -350,11 +363,25 @@ namespace NanjingBus
             }
         }
 
+       
         private void NavCallback(IAsyncResult result)
         {
             string destination = string.Empty;
             HttpWebRequest request = (HttpWebRequest)result.AsyncState;
-            WebResponse response = request.EndGetResponse(result);
+            WebResponse response;
+            try
+            {
+                response = request.EndGetResponse(result);
+            }
+            catch (Exception)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                {
+                    ProgressBar.Visibility = Visibility.Collapsed;
+                    MessageHelper.Show("网络出错噜~");
+                });
+                return;
+            }
             using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
@@ -388,70 +415,6 @@ namespace NanjingBus
 
         }
 
-        //private void MainPage_OnLoaded(object sender, RoutedEventArgs e)
-        //{
-        //    #region 背景
-        //    LinearGradientBrush brushForbg = new LinearGradientBrush();
-        //    brushForbg.EndPoint = new Point(0.5, 1);
-        //    brushForbg.StartPoint = new Point(0.5, 0);
-        //    GradientStop gsBg1 = new GradientStop();
-        //    gsBg1.Color = Color.FromArgb(33, 255, 255, 255);
-        //    gsBg1.Offset = 0;
 
-        //    GradientStop gsBg2 = new GradientStop();
-        //    gsBg2.Color = Color.FromArgb(192, 255, 255, 255);
-        //    gsBg2.Offset = 0.287;
-
-        //    GradientStop gsBg3 = new GradientStop();
-        //    gsBg3.Color = Color.FromArgb(255, 255, 255, 255);
-        //    gsBg3.Offset = 0.683;
-
-        //    GradientStop gsBg4 = new GradientStop();
-        //    gsBg4.Color = Color.FromArgb(33, 255, 255, 255);
-        //    gsBg4.Offset = 1;
-
-        //    GradientStopCollection gsc2 = new GradientStopCollection();
-        //    gsc2.Add(gsBg1);
-        //    gsc2.Add(gsBg2);
-        //    gsc2.Add(gsBg3);
-        //    gsc2.Add(gsBg4);
-
-        //    brushForbg.GradientStops = gsc2;
-        //    #endregion
-
-        //    #region 边框
-        //    LinearGradientBrush brush = new LinearGradientBrush();
-        //    brush.EndPoint = new Point(0.5, 1);
-        //    brush.StartPoint = new Point(0.5, 0);
-        //    GradientStop gs1 = new GradientStop();
-        //    gs1.Color = Color.FromArgb(58, 11, 32, 45);
-        //    gs1.Offset = 0;
-
-        //    GradientStop gs2 = new GradientStop();
-        //    gs2.Color = Color.FromArgb(62, 255, 255, 255);
-        //    gs2.Offset = 0.25;
-
-        //    GradientStop gs3 = new GradientStop();
-        //    gs3.Color = Color.FromArgb(255, 255, 255, 255);
-        //    gs3.Offset = 0.5;
-
-        //    GradientStop gs4 = new GradientStop();
-        //    gs4.Color = Color.FromArgb(62, 255, 255, 255);
-        //    gs4.Offset = 0.75;
-
-        //    GradientStop gs5 = new GradientStop();
-        //    gs5.Color = Color.FromArgb(191, 255, 255, 255);
-        //    gs5.Offset = 1;
-
-        //    GradientStopCollection gsc = new GradientStopCollection();
-        //    gsc.Add(gs1);
-        //    gsc.Add(gs2);
-        //    gsc.Add(gs3);
-        //    gsc.Add(gs4);
-        //    gsc.Add(gs5);
-
-        //    brush.GradientStops = gsc;
-        //    #endregion
-        //}
     }
 }
