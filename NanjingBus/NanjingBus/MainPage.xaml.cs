@@ -416,5 +416,9 @@ namespace NanjingBus
         }
 
 
+        private void AboutBarMenuItem_OnClick(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
+        }
     }
 }

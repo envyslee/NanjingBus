@@ -115,7 +115,7 @@ namespace NanjingBus
 
             // 创建框架但先不将它设置为 RootVisual；这允许初始
             // 屏幕保持活动状态，直到准备呈现应用程序时。
-            RootFrame = new PhoneApplicationFrame();
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // 处理导航故障
