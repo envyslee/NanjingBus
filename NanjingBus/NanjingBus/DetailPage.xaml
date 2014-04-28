@@ -47,18 +47,19 @@
                                 <TextBlock x:Name="BusTextBlock"
                                            Text="{Binding BusId}"
                                            FontSize="24"
-                                           Foreground="Green"></TextBlock>
-                                <TextBlock Grid.Column="1" Text="即将进站  时速:"  Foreground="Green"  FontSize="24"></TextBlock>
+                                           Foreground="DarkTurquoise"></TextBlock>
+                                <TextBlock Grid.Column="1" Text="即将进站  速度:"  Foreground="DarkTurquoise"  FontSize="24"></TextBlock>
                                 <TextBlock Text="{Binding BusSpeed}"
                                              Grid.Column="2"
                                            FontSize="24"
-                                           Foreground="Green"></TextBlock>
-                                <TextBlock Grid.Column="3" Text="km/h" Foreground="Green"  FontSize="24"></TextBlock>
+                                           Foreground="DarkTurquoise"></TextBlock>
+                                <TextBlock Grid.Column="3" Text="km/h" Foreground="DarkTurquoise"  FontSize="24"></TextBlock>
                             </Grid>
 
                             <TextBlock x:Name="StationTextBlock" 
                                            Text="{Binding StationName}"
-                                           FontSize="28"></TextBlock>
+                                           FontSize="28"
+                                       Foreground="{Binding ColorBrush}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -70,6 +71,9 @@
             <shell:ApplicationBarIconButton Text="刷新" 
                                             Click="RefreshIconButton_OnClick"
                                             IconUri="/Resources/Image/sync.png"></shell:ApplicationBarIconButton>
+            <shell:ApplicationBarIconButton Text="短信分享"
+                                            Click="MsgIconButton_OnClick"
+                                            IconUri="/Resources/Image/msg.png"></shell:ApplicationBarIconButton>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

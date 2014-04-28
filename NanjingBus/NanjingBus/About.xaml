@@ -13,7 +13,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    shell:SystemTray.Opacity="0">
+    shell:SystemTray.Opacity="0"
+    toolkit:TiltEffect.IsTiltEnabled="True">
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -36,26 +37,26 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <HyperlinkButton Content="当前版本：1.0.0.0" 
+            <HyperlinkButton Content="当前版本：1.1.0.0" 
                              HorizontalContentAlignment="Left"
-                             FontSize="28"
+                             FontSize="29"
                              Margin="0 0 0 12"></HyperlinkButton>
-            <HyperlinkButton Content="给我发邮件"
+            <HyperlinkButton Content="意见建议"
                              Grid.Row="1"
                              HorizontalContentAlignment="Left"
-                             FontSize="28"
+                             FontSize="29"
                              Margin="0 0 0 12"
                              Click="Email_OnClick"></HyperlinkButton>
             <HyperlinkButton Content="五星好评"
                              Grid.Row="2"
                              HorizontalContentAlignment="Left"
-                             FontSize="28"
+                             FontSize="29"
                              Margin="0 0 0 12"
                              Click="Evaluate_OnClick"></HyperlinkButton>
             <HyperlinkButton Content="推荐应用"
                              Grid.Row="3"
                              HorizontalContentAlignment="Left"
-                             FontSize="28"
+                             FontSize="29"
                              Margin="0 0 0 12"
                              Click="Recommend_OnClick"></HyperlinkButton>
         </Grid>

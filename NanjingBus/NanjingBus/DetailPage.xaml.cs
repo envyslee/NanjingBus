@@ -6,9 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Microsoft.Phone.Tasks;
 using NanjingBus.Entity;
 using NanjingBus.Method;
 using Newtonsoft.Json;
@@ -20,6 +22,9 @@ namespace NanjingBus
         private string CurrStation;
         private string lineName;
         private string lastStation;
+        private int currStationId;
+        private int busNums=0;
+        private int nearestStationId;
 
         ObservableCollection<BindList> bindList = new ObservableCollection<BindList>();
 
@@ -48,6 +53,8 @@ namespace NanjingBus
 
         private void DetailPage_OnLoaded(object sender, RoutedEventArgs e)
         {
+            busNums = 0;
+            nearestStationId = 0;
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 ProgressBar.Visibility = Visibility.Visible;
@@ -75,11 +82,26 @@ namespace NanjingBus
                         {
                             foreach (var item in currentData.data)
                             {
+                                //有公交
                                 try
                                 {
                                     bindList[int.Parse(item.currentLevel) - 1].BusId = item.busId;
                                     bindList[int.Parse(item.currentLevel) - 1].BusSpeed = item.busSpeed.Split(',').FirstOrDefault();
                                     bindList[int.Parse(item.currentLevel) - 1].Visibility = Visibility.Visible;
+                                    if (int.Parse(item.currentLevel)<=currStationId)
+                                    {
+                                        busNums++;
+                                        //第一次给值
+                                        if (nearestStationId==0)
+                                        {
+                                            nearestStationId = currStationId - int.Parse(item.currentLevel) + 1;
+                                        }
+                                        //发现更小值即距离更近的公交，则重赋
+                                        if (currStationId- int.Parse(item.currentLevel)+1<nearestStationId)
+                                        {
+                                            nearestStationId = currStationId - int.Parse(item.currentLevel) + 1;
+                                        }
+                                    }
                                 }
                                 catch (Exception)
                                 {
@@ -103,36 +125,142 @@ namespace NanjingBus
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            try
+            if (e.NavigationMode==NavigationMode.Back)
             {
-                CurrStation = NavigationContext.QueryString["tb"];
-                lineName = NavigationContext.QueryString["lineName"];
-                lastStation = NavigationContext.QueryString["lastStation"];
+                return;
+            }
+            CurrStation = NavigationContext.QueryString["tb"];
+            lineName = NavigationContext.QueryString["lineName"];
+            lastStation = NavigationContext.QueryString["lastStation"];
+            stationCollection = (App.Current as App).stationList;
+            currStationId = stationCollection.IndexOf(CurrStation)+1;
 
-                stationCollection = (App.Current as App).stationList;
-                foreach (var item in stationCollection)
+            Color themeColor = (Color)Application.Current.Resources["PhoneForegroundColor"];
+
+            if (themeColor.ToString() == "#FFFFFFFF")
+            {
+                // 暗色主题
+                try
                 {
-                    bindList.Add(new BindList(){StationName = item});
+                    foreach (var item in stationCollection)
+                    {
+                        if (item == CurrStation)
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Red) });
+                        }
+                        else
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.White) });
+                        }
+                    }
+
                 }
-
+                catch (Exception)
+                {
+                    MessageHelper.Show("传参错误");
+                }
             }
-            catch (Exception)
+            else
             {
-                MessageHelper.Show("传参错误");
-            }
+                // 亮色主题   
+                try
+                {
 
+                    foreach (var item in stationCollection)
+                    {
+                        if (item == CurrStation)
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Red) });
+                        }
+                        else
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Black) });
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    MessageHelper.Show("传参错误");
+                }
+            } 
+          
 
         }
 
+
+        /// <summary>
+        /// 刷新
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RefreshIconButton_OnClick(object sender, EventArgs e)
         {
             BindList.Clear();
-            stationCollection = (App.Current as App).stationList;
-            foreach (var item in stationCollection)
+            //stationCollection = (App.Current as App).stationList;
+            Color themeColor = (Color)Application.Current.Resources["PhoneForegroundColor"];
+
+            if (themeColor.ToString() == "#FFFFFFFF")
             {
-                bindList.Add(new BindList() { StationName = item });
+                // 暗色主题
+                try
+                {
+                    foreach (var item in stationCollection)
+                    {
+                        if (item == CurrStation)
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Red) });
+                        }
+                        else
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.White) });
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    MessageHelper.Show("传参错误");
+                }
             }
+            else
+            {
+                // 亮色主题   
+                try
+                {
+
+                    foreach (var item in stationCollection)
+                    {
+                        if (item == CurrStation)
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Red) });
+                        }
+                        else
+                        {
+                            bindList.Add(new BindList() { StationName = item, ColorBrush = new SolidColorBrush(Colors.Black) });
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    MessageHelper.Show("传参错误");
+                }
+            } 
             DetailPage_OnLoaded(null,null);
+        }
+
+        /// <summary>
+        /// 发送短信
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MsgIconButton_OnClick(object sender, EventArgs e)
+        {
+            SmsComposeTask smsTask=new SmsComposeTask();
+            smsTask.Body = "当前共有" + busNums + "辆公交开往【" + CurrStation + "】，其中最近一辆距离该站还有" + nearestStationId + "站路。" + "\n" + "——来自【南京掌上公交】";
+         
+            smsTask.Show();
         }
     }
 }

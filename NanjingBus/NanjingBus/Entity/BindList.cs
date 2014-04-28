@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NanjingBus.Entity
 {
@@ -94,6 +95,21 @@ namespace NanjingBus.Entity
             {
                 _visibility = value;
                 OnPropertyChanged("Visibility");
+            }
+        }
+
+        private SolidColorBrush colorBrush=new SolidColorBrush();
+
+        public SolidColorBrush ColorBrush
+        {
+            get
+            {
+                return colorBrush;
+            }
+            set
+            {
+                colorBrush = value;
+                OnPropertyChanged("ColorBrush");
             }
         }
     }

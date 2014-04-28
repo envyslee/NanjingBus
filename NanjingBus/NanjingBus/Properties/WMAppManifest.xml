@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
-  <App xmlns="" ProductID="{6451d4bd-107d-42de-abeb-73292a718111}" Title="南京掌上公交" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="nic" Description="Sample description" Publisher="nic" PublisherID="{7dc5fbd2-a251-4fea-99e5-19560512c481}">
+  <App xmlns="" ProductID="{6451d4bd-107d-42de-abeb-73292a718111}" Title="南京掌上公交" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="nic" Description="Sample description" Publisher="nic" PublisherID="{7dc5fbd2-a251-4fea-99e5-19560512c481}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

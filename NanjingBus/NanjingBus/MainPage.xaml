@@ -159,8 +159,7 @@
               Grid.RowSpan="2"
                   Visibility="Collapsed"
                   VerticalAlignment="Top"
-   
-                  Background="Black"
+              Background="Black"
                         Width="{Binding ActualWidth,ElementName=MainApplicationPage}"
                   Height="{Binding ActualHeight,ElementName=MainApplicationPage}">
             <Grid.Projection>
@@ -170,20 +169,22 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="请选择您当前所在站台："
+            <TextBlock x:Name="ChooseStationTextBlock"
+                       Grid.Row="0" 
+                       Text="请选择您当前所在站台："
+                       Foreground="White"
                            FontSize="30" 
-                           Padding="10 20 0 0"
-                           Foreground="White"></TextBlock>
+                           Padding="10 20 0 0"></TextBlock>
             <ListBox x:Name="StationListBox" 
                          Grid.Row="1"
                           Margin="10 20 0 0"
                          ItemsSource="{Binding StationCollection,ElementName=MainApplicationPage}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding}" 
+                        <TextBlock  Text="{Binding}" 
                                        FontSize="28"
                                        Tap="CurrStation_OnTap"
-                                             Foreground="White"></TextBlock>
+                                    Foreground="White"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -102,6 +102,7 @@
     <Compile Include="Entity\BindList.cs" />
     <Compile Include="Entity\CurrentData.cs" />
     <Compile Include="Entity\CurrentDataList.cs" />
+    <Compile Include="Entity\PopupList.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -161,6 +162,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Image\msg.png" />
     <Content Include="Resources\Image\search2.jpg" />
     <Content Include="Resources\Image\sync.png" />
   </ItemGroup>

@@ -33,6 +33,8 @@ namespace NanjingBus
 
         private string wholeLineName;
 
+        private bool dark;
+
         ObservableCollection<string> directionCollection = new ObservableCollection<string>();
 
         ObservableCollection<string> stationCollection = new ObservableCollection<string>();
@@ -116,7 +118,7 @@ namespace NanjingBus
             }
             if (string.IsNullOrEmpty(StationTextBox.Text))
             {
-                MessageHelper.Show("您还没输入线路哦~");
+                MessageHelper.Show("您还没输入站点哦~");
                 return;
             }
 
@@ -283,6 +285,7 @@ namespace NanjingBus
 
             if (tb != null)
             {
+
                 (App.Current as App).stationList = stationCollection;
              
                 NavigationService.Navigate(new Uri("/DetailPage.xaml?tb=" + tb.Text + "&lineName=" + lineName + "&lastStation=" + lastStation, UriKind.Relative));
@@ -420,5 +423,26 @@ namespace NanjingBus
         {
             NavigationService.Navigate(new Uri("/About.xaml", UriKind.Relative));
         }
+
+        //protected override void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedTo(e);
+        //     Color themeColor = (Color)Application.Current.Resources["PhoneForegroundColor"];
+        //    if (themeColor.ToString() == "#FFFFFFFF")
+        //    {
+        //        dark = true;
+        //        StationPopup.Background = new SolidColorBrush(Colors.Black);
+        //        ChooseStationTextBlock.Foreground = new SolidColorBrush(Colors.White);
+        //        StationListBox.Foreground = new SolidColorBrush(Colors.White);
+        //    }
+        //    else
+        //    {
+        //        dark = false;
+        //        StationPopup.Background = new SolidColorBrush(Colors.White);
+        //        ChooseStationTextBlock.Foreground = new SolidColorBrush(Colors.Black);
+        //        //StationListBox.Foreground = new SolidColorBrush(Colors.Black);
+            
+        //    }
+        //}
     }
 }

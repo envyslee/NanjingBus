@@ -19,6 +19,8 @@ namespace NanjingBus
         /// <returns>电话应用程序的根框架。</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
 
+       
+
         /// <summary>
         /// Application 对象的构造函数。
         /// </summary>
